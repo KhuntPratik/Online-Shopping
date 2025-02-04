@@ -44,7 +44,7 @@ mongoose.connect(atlsurl).then(() => {
 
 
         // update
-        app.put("/product/:id", async (req, res) => {
+        app.put("/Product/:id", async (req, res) => {
             const proData = await Product.findOne({ _id: { $eq: req.params.id } })
             proData.ProductName= req.body.ProductName,
             proData.ProductDescripiton= req.body.ProductDescripiton,
@@ -58,11 +58,17 @@ mongoose.connect(atlsurl).then(() => {
             res.send("Data updated")
         })
 
+        // delete
+
+        app.delete("/Product/:id",async(req,res)=>{
+            await Product.deleteOne({ _id: { $eq: req.params.id } })
+            res.send("Data Deleted")
+        })
 
 
 
 
-    app.listen(3000, () => {
+    app.listen(4000, () => {
         console.log("Srever Strated");
     })
 })
