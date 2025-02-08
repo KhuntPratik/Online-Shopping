@@ -1,11 +1,11 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require('body-parser')
-const Product = require("./Schemas/ProductSchema")
+const Product = require("../Schemas/ProductSchema")
 const app = express()
 
 
-const atlsurl = "mongodb+srv://kp104patel:kp123@cluster0.g52xn.mongodb.net/"
+const atlsurl = "mongodb+srv://kp104patel:kp123@cluster0.g52xn.mongodb.net/products"
 
 
 app.use(bodyParser.json())
@@ -72,5 +72,3 @@ mongoose.connect(atlsurl).then(() => {
         console.log("Srever Strated");
     })
 })
-
-
