@@ -42,15 +42,9 @@ mongoose.connect(atlsurl).then(()=>{
 // update
 
     app.put("/User/:id" , async(req,res)=>{
-        const Adddata = await User.findOne({_id : {$eq : req.params.id}})
-        Adddata.UserName = req.body.UserName,
-        Adddata.UserEmail = req.body.UserEmail,
-        Adddata.UserPassword = req.body.UserPassword,
-        Adddata.UserContact = req.body.UserContact
+        const Adddata = await User.findByIdAndUpdate(req.params.id,req.body)
 
-
-        await Adddata.save();
-        res.send("data update")
+        res.send(Adddata)
     })
 
 

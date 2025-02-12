@@ -41,13 +41,9 @@ mongoose.connect(atlsurl).then(()=>{
 // update
 
     app.put("/Cart/:id" , async(req,res)=>{
-        const Adddata = await Cart.findOne({_id : {$eq : req.params.id}})
-        Adddata.ProductID = req.body.ProductID,
-        Adddata.ProductQuantity = req.body.ProductQuantity,
-        Adddata.UserID = req.body.ProductQuantity
-
-        await Adddata.save();
-        res.send("data update")
+        const Adddata = await Cart.findByIdAndUpdate(req.params.id,req.body)
+       
+        res.send(Adddata)
     })
 
 

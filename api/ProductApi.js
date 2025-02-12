@@ -10,6 +10,8 @@ const atlsurl = "mongodb+srv://kp104patel:kp123@cluster0.g52xn.mongodb.net/produ
 
 app.use(bodyParser.json())
 
+
+
 mongoose.connect(atlsurl).then(() => {
     console.log("Atlas Connected");
 
@@ -45,17 +47,9 @@ mongoose.connect(atlsurl).then(() => {
 
         // update
         app.put("/Product/:id", async (req, res) => {
-            const proData = await Product.findOne({ _id: { $eq: req.params.id } })
-            proData.ProductName= req.body.ProductName,
-            proData.ProductDescripiton= req.body.ProductDescripiton,
-            proData.ProductImage= req.body.ProductImage,
-            proData.ProductPrice= req.body.ProductPrice,
-            proData.ProductQuantity= req.body.ProductQuantity,
-            proData.ProductDiscount= req.body.ProductDiscount,
-            proData.CategoryID= req.body.CategoryID
-    
-            await proData.save();
-            res.send("Data updated")
+          const Adddata = await Product.findByIdAndUpdate(req.params.id,req.body)
+           
+            res.send(Adddata)
         })
 
         // delete

@@ -40,11 +40,10 @@ mongoose.connect(atlsurl).then(()=>{
 //  update
 
             app.put("/Category/:id" , async(req,res)=>{
-                const Adddata = await Category.findOne({_id : {$eq : req.params.id}})
-                Adddata.CategoryName = req.body.CategoryName
+                const Adddata = await Category.findByIdAndUpdate(req.params.id,req.body)
         
-                await Adddata.save();
-                res.send("data update")
+               
+                res.send(Adddata)
             })
 
 // delete
