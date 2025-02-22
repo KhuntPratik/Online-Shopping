@@ -1,8 +1,16 @@
-const express = require("express")
-const mongoose = require("mongoose")
-const bodyParser = require('body-parser')
-const User = require("../../Schemas/UserSchema")
-const app = express()
+import express from "express";
+import bodyParser from 'body-parser'
+import mongoose from 'mongoose'
+
+
+
+import { User } from "../../Schemas/UserSchema.js"; // ✅ Correct
+
+
+// const User = require("../../Schemas/UserSchema")
+
+
+// const app = express().Router()
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -12,32 +20,27 @@ router.use(bodyParser.json());
 
 
 // Get All
-router.get("/User", async (req, res) => {
+router.get("/", async (req, res) => {
     const data = await User.find();
     res.send(data);
 });
 
 
 // Get By Id
-router.get("/User/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
     const data = await User.findOne({ _id: req.params.id });
     res.send(data);
 });
 // insert
-router.post("/User", async (req, res) => {
-    const { UserName, UserEmail, UserPassword, UserContact, UserAddress, UserCity, UserState, UserCountry, UserPincode } = req.body;
+router.post("/", async (req, res) => {
+    const { UserId, UserName, UserEmail, UserPassword, UserContact } = req.body;
 
     const newUser = new User({
+        UserId,
         UserName,
         UserEmail,
         UserPassword,
-        UserContact,
-        UserAddress,
-        UserCity,
-        UserState,
-        UserCountry,
-        UserPincode,
-        UserProfileImage
+        UserContact
     });
 
     await newUser.save();
@@ -47,22 +50,17 @@ router.post("/User", async (req, res) => {
 
 // update
 
-router.put("/User/:id",  async (req, res) => {
-    const { UserName, UserEmail, UserPassword, UserContact, UserAddress, UserCity, UserState, UserCountry, UserPincode } = req.body;
+router.put("/:id",  async (req, res) => {
+    const { UserId, UserName, UserEmail, UserPassword, UserContact } = req.body;
 
     const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
         {
+            UserId,
             UserName,
             UserEmail,
             UserPassword,
-            UserContact,
-            UserAddress,
-            UserCity,
-            UserState,
-            UserCountry,
-            UserPincode,
-            UserProfileImage: UserProfileImage || undefined
+            UserContact
         },
         { new: true }
     );
@@ -75,7 +73,7 @@ router.put("/User/:id",  async (req, res) => {
 
 //delete
 
-router.delete("/User/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
     const data = await User.deleteOne({ _id: req.params.id });
     res.send(data);
 });

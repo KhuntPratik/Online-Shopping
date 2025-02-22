@@ -1,11 +1,14 @@
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
+
+
+import mongoose from 'mongoose'
 
 const schema = mongoose.Schema({
-  ProductId: number,
-  UserId:number
+  ProductId: Number,
+  UserId:Number
 })
 
-export default mongoose.model('wishlists', schema)
+export default mongoose.model('WishlistSchema', schema)
 
 
 

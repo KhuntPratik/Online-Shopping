@@ -1,8 +1,17 @@
-const express = require("express")
-const mongoose = require("mongoose")
-const bodyParser = require('body-parser')
-const Cart = require("../../Schemas/CartSchema")
+// const express = require("express")
+// const mongoose = require("mongoose")
+// const bodyParser = require('body-parser')
 
+
+import express from "express";
+import bodyParser from 'body-parser'
+import mongoose from 'mongoose'
+
+import { Carts } from "../../Schemas/CartSchema.js";
+
+
+// const Carts = require("../../Schemas/CartsSchema")
+ 
 
 
 const router = express.Router();
@@ -13,46 +22,46 @@ router.use(bodyParser.json());
 
 
 // Get All
-router.get("/Cart", async (req, res) => {
-    const data = await Cart.find();
+router.get("/", async (req, res) => {
+    const data = await Carts.find();
     res.send(data);
 })
 
 // Get By Id
-router.get("/Cart/:id", async (req, res) => {
-    const data = await Cart.findOne({ _id: { $eq: req.params.id } })
+router.get("/:id", async (req, res) => {
+    const data = await Carts.findOne({ _id: { $eq: req.params.id } })
     res.send(data);
 })
 
 // insert
-router.post("/Cart", async (req, res) => {
+router.post("/", async (req, res) => {
     const { ProductID, ProductQuantity, UserID } = req.body;
 
-    const newCartItem = new CartSchema({
+    const newCartsItem = new CartsSchema({
         ProductID,
         ProductQuantity,
         UserID
     });
 
-    await newCartItem.save();
-    res.send("Product added to cart");
+    await newCartsItem.save();
+    res.send("Product added to Carts");
 });
 
 
 // update
 
-router.put("/item/:_id", async (req, res) => {
+router.put("/:_id", async (req, res) => {
     const { _id } = req.params;
     const { ProductQuantity } = req.body;
-    const cartItem = await CartSchema.findById(_id);
+    const CartsItem = await CartsSchema.findById(_id);
 
-    if (!cartItem) {
-        return res.send("Cart item not found");
+    if (!CartsItem) {
+        return res.send("Carts item not found");
     }
 
-    cartItem.ProductQuantity = ProductQuantity;
+    CartsItem.ProductQuantity = ProductQuantity;
     
-    await cartItem.save();
+    await CartsItem.save();
     res.send("Product quantity updated");
 });
 
@@ -60,13 +69,13 @@ router.put("/item/:_id", async (req, res) => {
 
 //delete
 
-router.delete("/item/:cartId", async (req, res) => {
-    const deletedItem = await CartSchema.findByIdAndDelete(req.params.cartId);
+router.delete("/:CartsId", async (req, res) => {
+    const deletedItem = await CartsSchema.findByIdAndDelete(req.params.CartsId);
 
     if (!deletedItem) {
-        return res.send("Cart item not found");
+        return res.send("Carts item not found");
     }
-    res.send("Cart item removed");
+    res.send("Carts item removed");
 });
 
 export {router};

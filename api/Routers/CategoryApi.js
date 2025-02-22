@@ -1,7 +1,14 @@
-const express = require("express")
-const mongoose = require("mongoose")
-const bodyParser = require('body-parser')
-const Category = require("../Schemas/Category")
+import express from "express";
+import bodyParser from 'body-parser'
+import mongoose from 'mongoose'
+
+
+
+import { categories } from "../../Schemas/CategorySchema.js"; 
+
+
+
+// const Category = require("../Schemas/Category")
 
 
 
@@ -14,14 +21,14 @@ router.use(bodyParser.json());
 // Get All
 
 router.get("/", async (req, res) => {
-    const categories = await Category.find();
+    const categories = await categories.find();
     res.send(categories);
 });
 
 // Get by id
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
-    const category = await Category.findById(id);
+    const category = await categories.findById(id);
 
     if (!category) {
         return res.send("Category not found");
@@ -45,7 +52,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
     const { id } = req.params;
     const { CategoryName } = req.body;
-    const category = await Category.findById(id);
+    const category = await categories.findById(id);
 
     if (!category) {
         return res.send("Category not found");
@@ -61,7 +68,7 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
     const { id } = req.params;
-    const category = await Category.findByIdAndDelete(id);
+    const category = await categories.findByIdAndDelete(id);
     
     if (!category) {
         return res.send("Category not found");
