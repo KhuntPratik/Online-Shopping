@@ -1,34 +1,21 @@
-import express from "express";
-import bodyParser from 'body-parser'
-import mongoose from 'mongoose'
-
-
-
-import { categories } from "../../Schemas/CategorySchema.js"; 
-
-
-
-// const Category = require("../Schemas/Category")
-
-
+import mongoose from 'mongoose';
+import express from 'express';
+import bodyParser from 'body-parser';
+import CategorySchema from '../../Schemas/CategorySchema.js';
 
 const router = express.Router();
 router.use(bodyParser.json());
 
-
-
-
-// Get All
-
+// 1. Get All Categories
 router.get("/", async (req, res) => {
-    const categories = await categories.find();
+    const categories = await CategorySchema.find();
     res.send(categories);
 });
 
-// Get by id
+// 2. Get Category by ID
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
-    const category = await categories.findById(id);
+    const category = await CategorySchema.findById(id);
 
     if (!category) {
         return res.send("Category not found");
@@ -36,23 +23,21 @@ router.get("/:id", async (req, res) => {
     res.send(category);
 });
 
-// insert
-
+// 3. Insert a New Category
 router.post("/", async (req, res) => {
     const { CategoryName } = req.body;
 
-    const newCategory = new Category({ CategoryName });
+    const newCategory = new CategorySchema({ CategoryName });
 
     await newCategory.save();
     res.send({ message: "Category created successfully", category: newCategory });
 });
 
-//  update
-
+// 4. Update Category by ID
 router.put("/:id", async (req, res) => {
     const { id } = req.params;
     const { CategoryName } = req.body;
-    const category = await categories.findById(id);
+    const category = await CategorySchema.findById(id);
 
     if (!category) {
         return res.send("Category not found");
@@ -64,11 +49,10 @@ router.put("/:id", async (req, res) => {
     res.send("Category updated successfully");
 });
 
-// delete
-
+// 5. Delete Category by ID
 router.delete("/:id", async (req, res) => {
     const { id } = req.params;
-    const category = await categories.findByIdAndDelete(id);
+    const category = await CategorySchema.findByIdAndDelete(id);
     
     if (!category) {
         return res.send("Category not found");
@@ -76,6 +60,4 @@ router.delete("/:id", async (req, res) => {
     res.send("Category deleted successfully");
 });
 
-
 export default router;
-

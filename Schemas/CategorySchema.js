@@ -1,10 +1,7 @@
+import mongoose from 'mongoose';
 
+const schema = mongoose.Schema({
+    CategoryName: String,
+})
 
-import mongoose from "mongoose";
-
-const CategorySchema = new mongoose.Schema({
-    CategoryID: Number,
-    CategoryName: String
-});
-
-export const categories = mongoose.model("categories", CategorySchema); // ✅ Named export
+export default mongoose.model("categories",schema);
