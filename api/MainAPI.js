@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import express from 'express'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config();
 
 import { router as CartRouter} from '../api/Routers/CartRouter.js'
@@ -15,6 +16,8 @@ import WishlistRouter from '../api/Routers/WishlistRouter.js'
 
 const app = express();
 app.use(bodyParser.json())
+
+app.use(cors())
 
 mongoose.connect('mongodb+srv://kp104patel:kp123@cluster0.g52xn.mongodb.net/').then(() => {
     console.log("Database Connected");
