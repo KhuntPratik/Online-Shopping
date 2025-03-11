@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import multer from 'multer';
@@ -15,11 +15,11 @@ const __dirname = dirname(__filename);
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../../../Images/ProductImage'));
+        cb(null, path.join(__dirname, '../../public/ProductImage'));
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+        cb(null,file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
     }
 });
 
@@ -29,10 +29,12 @@ const upload = multer({ storage: storage });
 router.post("/", upload.single('ProductImage'), async (req, res) => {
     try {
         const { ProductName, ProductDescription, ProductPrice, ProductQuantity, ProductDiscount, CategoryID } = req.body;
-        const ProductImage = req.file ? req.file.filename : null;
-
+        
+       
+        const productImagePath = req.file ? `ProductImage/${req.file.filename}` : null;
+        
         const newProduct = new ProductSchema({
-            ProductImage,
+            ProductImage: productImagePath,
             ProductName,
             ProductDescription,
             ProductPrice,
@@ -45,6 +47,7 @@ router.post("/", upload.single('ProductImage'), async (req, res) => {
         res.status(201).json({ message: "Product created successfully", product: newProduct });
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
+        console.log(error)
     }
 });
 
@@ -83,12 +86,11 @@ router.get("/:id", async (req, res) => {
 });
 
 // Get Product By CategoryID (GET)
-import mongoose from 'mongoose';
+
 
 router.get("/category/:id", async (req, res) => {
     try {
-        const categoryId = req.params.id;
-        const products = await ProductSchema.find({ CategoryID: new mongoose.Types.ObjectId(categoryId) });
+        const products = await ProductSchema.find({ CategoryID: req.params.id });
 
         if (products.length === 0) {
             return res.status(404).json({ error: "No products found for this category" });

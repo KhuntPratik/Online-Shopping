@@ -31,7 +31,7 @@ mongoose.connect('mongodb+srv://kp104patel:kp123@cluster0.g52xn.mongodb.net/').t
     app.use("/user",UserRouter);
     app.use("/wishlist",WishlistRouter);
 
-    app.listen(3000,()=>{
+    app.listen(5000,()=>{
         console.log("Server Started at ",3000);
     })
 })
